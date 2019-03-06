@@ -19,7 +19,8 @@ def im_from_file(f):
 
 def extract_backgrounds(archive, folder):
     
-    os.mkdir(folder)
+    if not os.path.exists(folder):
+        os.makedirs(folder)
     t = tarfile.open(name=archive)
 
     def members():
@@ -47,7 +48,7 @@ def extract_backgrounds(archive, folder):
             if im.shape[0] > 640 and im.shape[0] < 1200:
                 im = cv2.resize(im, (640, 640))
                 fname = "{}/{:08}.jpg".format(folder,index)
-                print fname
+                print(fname)
                 rc = cv2.imwrite(fname, im)
                 if not rc:
                     raise Exception("Failed to write file {}".format(fname))
