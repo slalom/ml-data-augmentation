@@ -21,20 +21,25 @@ python3 extractbkgs.py --archive SUN2012.tar.gz --folder-name backgrounds
 Once backgrounds are extracted into a folder, the following commands can be used to generate labels
 
 ```
-python3 gen.py --make_num <number of labels>
+python3 gen.py --make-num <number of labels>
 ```
 
 Specify different logo:
 ```
-python3 gen.py --make_num 3 --logo_path ./images/slalom_horizontal.jpg 
+python3 gen.py --make-num 3 --logo-path ./images/slalom_horizontal.jpg 
 ```
 
 Also generate anomalies:
 ```
-python3 gen.py --make_num 3 --logo_path ./images/slalom_horizontal.jpg --class_names slalom,anomalous_label
+python3 gen.py --make-num 3 --logo-path ./images/slalom_horizontal.jpg --class-names slalom,anomalous_label
+```
+
+Custom Backgrounds folder:
+```
+python3 gen.py --make-num 3 --logo-path ./images/slalom_horizontal.jpg --class-names slalom,anomalous_label --backgrounds-dir custombkg/
 ```
 
 Turn on debug to highlight bounding boxes:
 ```
-python3 gen.py --make_num 3 --logo_path ./images/slalom_horizontal.jpg --class_names slalom,anomalous_label --debug
+python3 gen.py --make-num 3 --logo-path ./images/slalom_horizontal.jpg --class-names slalom,anomalous_label --debug
 ```

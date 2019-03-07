@@ -257,10 +257,10 @@ class GenerateLabel:
         img = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR);
         return img
     
-    def generate_bg(self):
+    def generate_bg(self, bkg_dir):
         found = False
         while not found:
-            fname = "backgrounds/{:08d}.jpg".format(random.randint(0, len(os.listdir("backgrounds")) - 2))
+            fname = bkg_dir + "/{:08d}.jpg".format(random.randint(0, len(os.listdir(bkg_dir)) - 2))
             print('selected {} as background'.format(fname))
             bg = cv2.imread(fname, 1)
             bg = cv2.cvtColor(bg, cv2.COLOR_BGR2RGB)
@@ -298,7 +298,7 @@ class GenerateLabel:
             print('{} sample generated.'.format(sample_filename))
         
         
-    def genBatch(self, batchSize, outputPath, logoPath, classNames, debugFlag):
+    def genBatch(self, batchSize, outputPath, logoPath, backgroundDir, classNames, debugFlag):
         
         shutil.rmtree(outputPath)
         
@@ -327,7 +327,7 @@ class GenerateLabel:
             
         for class_name_idx, class_name in enumerate(class_names):
             for i in range(batchSize):
-                self.bkg = self.generate_bg()
+                self.bkg = self.generate_bg(backgroundDir)
                 generatedLabel = self.img
 
                 generatedLabel = self.addLogo(generatedLabel, logoPath)
@@ -514,11 +514,11 @@ class GenerateLabel:
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--bkg_dir', default='./backgrounds')
-    parser.add_argument('--out_dir', default='./generated')
-    parser.add_argument('--logo_path', default='./images/slalom_logo.jpg')
-    parser.add_argument('--make_num', default=1000, type=int)
-    parser.add_argument('--class_names', default='label')
+    parser.add_argument('--backgrounds-dir', default='./backgrounds')
+    parser.add_argument('--out-dir', default='./generated')
+    parser.add_argument('--logo-path', default='./images/slalom_logo.jpg')
+    parser.add_argument('--make-num', default=1000, type=int)
+    parser.add_argument('--class-names', default='label')
     parser.add_argument('--samples', action='store_true')
     parser.add_argument('--debug', action='store_true')
     return parser.parse_args()
@@ -529,7 +529,7 @@ def main(args):
     if (args.samples):
         G.genRealSamples(args.make_num, args.out_dir, args.logo_path)
     else:
-        G.genBatch(args.make_num, args.out_dir, args.logo_path, args.class_names, args.debug)
+        G.genBatch(args.make_num, args.out_dir, args.logo_path, args.backgrounds_dir, args.class_names, args.debug)
 
 if __name__ == '__main__':
     main(parse_args())
